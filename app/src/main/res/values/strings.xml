@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AppsflyIntegrationSamples</string>
+    <string name="app_intro">Hi Welcome to appsfly.io sample application!\nTap on Launch button to launch the microapp.\n\nRemember to sync the microapps before launching them.</string>
+
+    <string name="microapp_id">io.appsfly.ma-cta-gadag-test</string>
+    <string name="app_key">3a547fb1-f5c5-4185-af50-363fb1c3cf64</string>
+    <string name="execution_url">https://microapps.appsfly.io/executor/fetch-build</string>
+    <string name="intent_string">start</string>
+</resources>
