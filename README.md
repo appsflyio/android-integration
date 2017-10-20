@@ -13,12 +13,12 @@ Add the following to the root gradle file.
 
 ### Step 2
 #### Add Core Library as a gradle dependency
-    compile 'com.github.appsflyio.appsfly-runtime-android:core:+'
+    compile 'com.github.appsflyio.appsfly-runtime-android:core:0.0.18'
 
 Core library has all the libraries to run Appsfly Plugins.
 
 #### Add Microapp Library as a gradle dependency
-    compile 'com.github.appsflyio.appsfly-runtime-android:micro-app:+'
+    compile 'com.github.appsflyio.appsfly-runtime-android:micro-app:0.0.18'
 
 This library has the dependency on Core Library. This will enable MicroApps to fly into the user's context in the publisher application.
 
@@ -33,13 +33,9 @@ Override your Application/Activity3 Instance onCreate() method
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		String repoUrl = "REPO_URL"; 
-                // Current repo url is 'https://microapps.appsfly.io/executor/fetch-build'
-		String microModuleId = "MICRO_MODULE_HANDLE"; // MicroApp Id
-		String associationKey = "APPLICATION_KEY"; // Application key created on the dashboard
 
 		ArrayList<AppsFlyClientConfig> appsFlyClientConfigs = new ArrayList<AppsFlyClientConfig>();
-		AppsFlyClientConfig appsflyConfig = new AppsFlyClientConfig(microModuleId,  associationKey, repoUrl);
+		AppsFlyClientConfig appsflyConfig = new AppsFlyClientConfig("MICRO_MODULE_HANDLE",  "APPLICATION_KEY", "EXECUTION_URL");
 		appsFlyClientConfigs.add(appsflyConfig);
 		AppsFlyProvider.getInstance().initialize(appsFlyClientConfigs, this);
 	}
