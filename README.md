@@ -13,12 +13,12 @@ Add the following to the root gradle file.
 
 ### Step 2
 #### Add Core Library as a gradle dependency
-    compile 'com.github.appsflyio.appsfly-runtime-android:core:0.0.18'
+    compile 'com.github.appsflyio.appsfly-runtime-android:core:0.0.19'
 
 Core library has all the libraries to run Appsfly Plugins.
 
 #### Add Microapp Library as a gradle dependency
-    compile 'com.github.appsflyio.appsfly-runtime-android:micro-app:0.0.18'
+    compile 'com.github.appsflyio.appsfly-runtime-android:micro-app:0.0.19'
 
 This library has the dependency on Core Library. This will enable MicroApps to fly into the user's context in the publisher application.
 
