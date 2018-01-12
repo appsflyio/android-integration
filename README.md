@@ -19,7 +19,7 @@ implementation ('io.appsfly.android.utils:micro-app:1.2.15'){
 	transitive = true
 }
 ```
-
+The latest build version can be found [here](http://repos.appsfly.io/artifactory/libs-release-local). It is advised to upgrade periodically to the latest version.
 > Note: If you are using a lower version of Android Studio, use 'compile' instead of 'implementation'
 
 ### Step 3
