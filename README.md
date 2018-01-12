@@ -4,20 +4,23 @@
 #### Add artifactory maven repository:
 Add the following to the root gradle file.
 
-	allprojects {
-		repositories {
-			...
-			maven { url "https://repos.appsfly.io/artifactory/libs-release-local" }
-		}
+```
+allprojects {
+	repositories {
+		...
+		maven { url "https://repos.appsfly.io/artifactory/libs-release-local" }
 	}
-
+}
+```
 ### Step 2
 #### Add the gradle dependency
-    implementation ('io.appsfly.android.utils:micro-app:1.2.15'){
-        transitive = true
-    }
+```
+implementation ('io.appsfly.android.utils:micro-app:1.2.15'){
+	transitive = true
+}
+```
 
-If you are using a lower version of Android Studio, use 'compile' instead of 'implementation'
+> Note: If you are using a lower version of Android Studio, use 'compile' instead of 'implementation'
 
 ### Step 3
 #### Generated Secret-key
@@ -58,6 +61,7 @@ defaultConfig {
 
 Override your Application/Activity Instance onCreate() method 
 
+```
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -67,9 +71,8 @@ Override your Application/Activity Instance onCreate() method
 		appsFlyClientConfigs.add(appsflyConfig);
 		AppsFlyProvider.getInstance().initialize(appsFlyClientConfigs, this);
 	}
-
+```
 This will start the process of syncing Metadata required to run MicroApp in your application.
-
 
 ### Step 4
 
@@ -81,39 +84,42 @@ To launch the MicroApp, run the following snippet where there is a call to actio
 MicroAppLauncher.pushApp(*MICRO_MODULE_HANDLE*, *INTENT*, *new JSONObject(){INTENT_DATA}*, *ACTIVITY*);
 ```
 
-> Note: This will create an activity showing the MicroApp.
-
 ___
 
 # Data into and out of MicroApp
 
 ### To put data into the MicroApp:
 ```
-    //Put user context data inside a JSONobject and pass it as intent data.
-    JSONObject userContextData = new JSONObject();
+    //Put context data inside a JSONobject and pass it as intent data.
+    JSONObject contextData = new JSONObject();
     data.put(*key* , *value*);
-    AppsFlyProvider.getInstance().pushApp("MICRO_MODULE_HANDLE", "APPLICATION_KEY", "INTENT", userContextData, context);
+    AppsFlyProvider.getInstance().pushApp("MICRO_MODULE_HANDLE", "APPLICATION_KEY", "INTENT", contextData, context);
 ```
+
+> Note: Values and format accepted by the Microapp are specific to each Microapp and can be found in the respective Microapp documentation.
 
 ### To retrieve data from the MicroApp:
 ```
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == AppsFlyProvider.REQUEST_CODE) {
-            String dataStr = data.getStringExtra("result");
-            JSONObject resultData;
-            try {
-                resultData = new JSONObject(dataStr);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            //Get values from resultData with keys specified by the MicroApp Service Provider .
-            Object value1 = result.get(*key1*);
-            String value2 = result.getString(*key2*);
-        }
-    }
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	super.onActivityResult(requestCode, resultCode, data);
+	if (resultCode == RESULT_OK && requestCode == AppsFlyConstants.NAVIGATION_CODE) {
+		    String dataStr = data.getStringExtra("result");
+		    JSONObject resultData;
+		    try {
+			resultData = new JSONObject(dataStr);
+		    } catch (JSONException e) {
+			e.printStackTrace();
+		    }
+		    //Get values from resultData with keys specified by the Microapp Documentation.
+		    Object value1 = result.get(*key1*);
+		    String value2 = result.getString(*key2*);
+	}
+}
 ```
+
+> Note: Values returned by the Microapp are specific to each Microapp and can be found in the respective Microapp documentation.
+
 ___
 
 
