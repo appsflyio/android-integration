@@ -1,49 +1,74 @@
-# Here's how to integrate the Android SDK
+# How to integrate the Appsfly Android Utils
 
 ### Step 1
-#### Add jitpack.io maven repository:
+#### Add artifactory maven repository:
 Add the following to the root gradle file.
 
 	allprojects {
 		repositories {
 			...
-			maven { url 'https://jitpack.io' }
+			maven { url "https://repos.appsfly.io/artifactory/libs-release-local" }
 		}
 	}
 
 ### Step 2
-#### Add Core Library as a gradle dependency
-    compile 'com.github.appsflyio.appsfly-runtime-android:core:0.0.23'
+#### Add the gradle dependency
+    implementation ('io.appsfly.android.utils:micro-app:1.2.15'){
+        transitive = true
+    }
 
-Core library has all the libraries to run Appsfly Plugins.
+If you are using a lower version of Android Studio, use 'compile' instead of 'implementation'
 
-#### Add Microapp Library as a gradle dependency
-    compile 'com.github.appsflyio.appsfly-runtime-android:micro-app:0.0.23'
+### Step 3
+#### Generated Secret-key
 
-This library has the dependency on Core Library. This will enable MicroApps to fly into the user's context in the publisher application.
+Obtain a unique secret key from Appsfly.io (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx). To keep the secret key secure, it is recommended to follow the below steps.
 
-> Note: If MicroApps are not used in the publisher application, skip Step 2.
+1. Place this key in the gradle.properties file of the Android Project.
+
+    `appsfly_app_key=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
+
+2. Add the following config to the manifest placeholders.
+
+```
+defaultConfig {
+    ...
+    manifestPlaceholders.appsfly_app_key = "${appsfly_app_key}"
+}
+```
+
+3. Add the following to the application module Manifest file.
+
+```
+<application
+    android:name=".MyApplication"
+    ...
+    android:label="My Application">
+
+    <meta-data
+        android:name="appsfly_app_key"
+        android:value="${appsfly_app_key}" />
+    ...
+/>
+```
 
 ### Step 3
 
 #### Initialize runtime with MicroApp configurations
 
-Override your Application/Activity3 Instance onCreate() method 
+Override your Application/Activity Instance onCreate() method 
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 
 		ArrayList<AppsFlyClientConfig> appsFlyClientConfigs = new ArrayList<AppsFlyClientConfig>();
-		AppsFlyClientConfig appsflyConfig = new AppsFlyClientConfig("MICRO_MODULE_HANDLE",  "APPLICATION_KEY", "EXECUTION_URL");
+		AppsFlyClientConfig appsflyConfig = new AppsFlyClientConfig(context, "MICRO_MODULE_HANDLE", "EXECUTION_URL");
 		appsFlyClientConfigs.add(appsflyConfig);
 		AppsFlyProvider.getInstance().initialize(appsFlyClientConfigs, this);
 	}
 
-This will start the process of syncing Metadata required to run MicroApp in your application. 
-
-> Note: **If you are using application class, do not forget to reference the class name in your manifest file.**
-> Note: MICRO_MODULE_HANDLE & APPLICATION_KEY can be obtained from MicroApp Service Provider.
+This will start the process of syncing Metadata required to run MicroApp in your application.
 
 
 ### Step 4
@@ -52,23 +77,26 @@ This will start the process of syncing Metadata required to run MicroApp in your
 
 To launch the MicroApp, run the following snippet where there is a call to action.
 
-	AppsFlyProvider.getInstance().pushApp("MICRO_MODULE_HANDLE", "APPLICATION_KEY", "INTENT", new JSONObject()*{}*, context);
+```
+MicroAppLauncher.pushApp(*MICRO_MODULE_HANDLE*, *INTENT*, *new JSONObject(){INTENT_DATA}*, *ACTIVITY*);
+```
 
-> Note: This will create an overlay activity showing the MicroApp.
+> Note: This will create an activity showing the MicroApp.
 
 ___
 
 # Data into and out of MicroApp
 
 ### To put data into the MicroApp:
-    
+```
     //Put user context data inside a JSONobject and pass it as intent data.
     JSONObject userContextData = new JSONObject();
     data.put(*key* , *value*);
     AppsFlyProvider.getInstance().pushApp("MICRO_MODULE_HANDLE", "APPLICATION_KEY", "INTENT", userContextData, context);
+```
 
 ### To retrieve data from the MicroApp:
-
+```
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -85,8 +113,8 @@ ___
             String value2 = result.getString(*key2*);
         }
     }
+```
 ___
 
-# Production release for Core/MicroApp SDK:
 
-The SDK available for download in this integration documentation is in a sandbox environment. Contact the integrations@appsfly.io to get a production build.
+Note: Contact the integrations@appsfly.io for any issues with integration.
