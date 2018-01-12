@@ -62,15 +62,15 @@ defaultConfig {
 Override your Application/Activity Instance onCreate() method 
 
 ```
-	@Override
-	public void onCreate() {
-		super.onCreate();
+@Override
+public void onCreate() {
+	super.onCreate();
 
-		ArrayList<AppsFlyClientConfig> appsFlyClientConfigs = new ArrayList<AppsFlyClientConfig>();
-		AppsFlyClientConfig appsflyConfig = new AppsFlyClientConfig(context, "MICRO_MODULE_HANDLE", "EXECUTION_URL");
-		appsFlyClientConfigs.add(appsflyConfig);
-		AppsFlyProvider.getInstance().initialize(appsFlyClientConfigs, this);
-	}
+	ArrayList<AppsFlyClientConfig> appsFlyClientConfigs = new ArrayList<AppsFlyClientConfig>();
+	AppsFlyClientConfig appsflyConfig = new AppsFlyClientConfig(context, "MICRO_MODULE_HANDLE", "EXECUTION_URL");
+	appsFlyClientConfigs.add(appsflyConfig);
+	AppsFlyProvider.getInstance().initialize(appsFlyClientConfigs, this);
+}
 ```
 This will start the process of syncing Metadata required to run MicroApp in your application.
 
@@ -90,10 +90,10 @@ ___
 
 ### To put data into the MicroApp:
 ```
-    //Put context data inside a JSONobject and pass it as intent data.
-    JSONObject contextData = new JSONObject();
-    data.put(*key* , *value*);
-    AppsFlyProvider.getInstance().pushApp("MICRO_MODULE_HANDLE", "APPLICATION_KEY", "INTENT", contextData, context);
+//Put context data inside a JSONobject and pass it as intent data.
+JSONObject contextData = new JSONObject();
+data.put(*key* , *value*);
+AppsFlyProvider.getInstance().pushApp("MICRO_MODULE_HANDLE", "APPLICATION_KEY", "INTENT", contextData, context);
 ```
 
 > Note: Values and format accepted by the Microapp are specific to each Microapp and can be found in the respective Microapp documentation.
