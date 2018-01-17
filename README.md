@@ -111,8 +111,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 			e.printStackTrace();
 		    }
 		    //Get values from resultData with keys specified by the Microapp Documentation.
-		    Object value1 = result.get(*key1*);
-		    String value2 = result.getString(*key2*);
+		    Object value1 = resultData.get(*key1*);
+		    String value2 = resultData.getString(*key2*);
 	}
 }
 ```
