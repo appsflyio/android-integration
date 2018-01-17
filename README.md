@@ -92,7 +92,7 @@ ___
 //Put context data inside a JSONobject and pass it as intent data.
 JSONObject contextData = new JSONObject();
 data.put(*key* , *value*);
-MicroAppLauncher.pushApp(*MICRO_MODULE_HANDLE*, *INTENT*, *new JSONObject(){INTENT_DATA}*, *ACTIVITY*);
+MicroAppLauncher.pushApp(*MICRO_MODULE_HANDLE*, *INTENT*, data, *ACTIVITY*);
 ```
 
 > Note: Values and format accepted by the Microapp are specific to each Microapp and can be found in the respective Microapp documentation.
