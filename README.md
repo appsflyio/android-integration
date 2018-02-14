@@ -103,7 +103,7 @@ MicroAppLauncher.pushApp(*MICRO_MODULE_HANDLE*, *INTENT*, data, *ACTIVITY*);
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	super.onActivityResult(requestCode, resultCode, data);
 	if (resultCode == RESULT_OK && requestCode == AppsFlyConstants.NAVIGATION_CODE) {
-		    String dataStr = data.getStringExtra("result");
+		    String dataStr = data.getStringExtra("postData");
 		    JSONObject resultData;
 		    try {
 			resultData = new JSONObject(dataStr);
