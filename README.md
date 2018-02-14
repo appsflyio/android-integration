@@ -15,7 +15,7 @@ allprojects {
 ### Step 2
 #### Add the gradle dependency
 ```
-implementation ('io.appsfly.android.utils:micro-app:1.2.15'){
+implementation ('io.appsfly.android.utils:micro-app:1.2.22'){
 	transitive = true
 }
 ```
